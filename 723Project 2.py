@@ -1,9 +1,11 @@
 import random
+
 class Bank:
 	def __init__(self):
 		self.bank_account = {}
 		self.account_password = {}
 		self.balance = .0
+		self.locked_account = {}
 
 	def create_account(self):
 		account_name = random.randint(10000000,99999999)
@@ -14,7 +16,7 @@ class Bank:
 
 		while True:
 			password = input("Please enter your account password : ")
-			if 8< len(password) <16:
+			if not (8 <= len(password) <= 16):
 				print(f"The password must be between 8 and 16 number. Please enter again.")
 				continue
 
@@ -30,6 +32,27 @@ class Bank:
 		      f"Your bank account password is : {password}")
 
 	def log_account(self):
+		attempt = 0
+		max_attempt = 3
+
+		while True:
+			account_name = input(f"Please enter your account name : ")
+			password = input(f"Please enter your account password : ")
+			if account_name in self.locked_account and self.locked_account[account_name]:
+				print(f"You entered your password more than three times, so we have locked your account ")
+				return
+
+			if account_name in self.bank_account and self.bank_account[account_name] == password:
+				print(f"Login successfully.")
+			else:
+				attempt += 1
+				print(f"You password is incorrect, You only have {max_attempt - attempt} attempt."
+				      f"If you enter incorrect password over three times, your account will be locked")
+				if attempt >= max_attempt:
+					self.locked_account[account_name] = True
+					print(f"Your account has been locked.")
+					break
+
 
 
 	def save_money(self, amount):
