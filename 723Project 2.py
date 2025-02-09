@@ -218,7 +218,10 @@ class Bank:
 				break
 			else:
 				print("You should enter 1-3 instead of other numbers or letters.")
+if __name__ == "__main__":
 
+	bank = Bank()
+	bank.start()
 
 
 
